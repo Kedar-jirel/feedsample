@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Feed Sample Application</string>
+    <string name="fullname">%1$s, %2$s</string>
+    <string name="desc">Download and use free scenery stock photos in high resolution ✓ New free images everyday ✓ HD to 4K ✓ Best scenery pictures for all devices on Pixabay.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Feed Sample</string>
+    <string name="nav_header_subtitle">feedsample@example.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Recent Feeds</string>
+    <string name="menu_gallery">Create Feed</string>
+    <string name="menu_slideshow">My Feeds</string>
+</resources>

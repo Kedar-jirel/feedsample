@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorHorizontalLine">#E2E2E2</color>
+    <color name="colorGrey">#CCCCCC</color>
+    <color name="background">#dddddd</color>
+</resources>
