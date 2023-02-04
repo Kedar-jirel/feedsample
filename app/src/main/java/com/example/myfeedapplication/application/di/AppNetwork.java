@@ -2,6 +2,7 @@ package com.example.myfeedapplication.application.di;
 
 import com.example.myfeedapplication.application.models.remote.Feed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.Module;
@@ -15,7 +16,6 @@ import retrofit2.http.Url;
 public interface AppNetwork {
 
     @GET("web-n-app-tasks/posts")
-    Observable<List<Feed>> getFeeds();
-
+    Observable<ArrayList<Feed>> getFeeds();
 
 }

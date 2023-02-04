@@ -4,6 +4,8 @@ package com.example.myfeedapplication.modules.main.fragments.feed.di;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfeedapplication.application.di.AppNetwork;
+import com.example.myfeedapplication.application.models.local.DbManager;
+import com.example.myfeedapplication.ext.CheckInternetConnection;
 import com.example.myfeedapplication.ext.SchedulerProvider;
 import com.example.myfeedapplication.modules.main.fragments.feed.mvp.FeedInteractor;
 import com.example.myfeedapplication.modules.main.fragments.feed.mvp.FeedPresenter;
@@ -23,20 +25,20 @@ public class FeedModule {
 
     @FeedScope
     @Provides
-    FeedView homeView(){
+    FeedView feedView(){
         return new FeedView(activity);
     }
 
     @FeedScope
     @Provides
-    FeedInteractor homeInteractor(AppNetwork appNetwork){
-        return  new FeedInteractor(appNetwork,activity);
+    FeedInteractor feedInteraction(AppNetwork appNetwork, DbManager dbManager, CheckInternetConnection checkInternetConnection){
+        return  new FeedInteractor(appNetwork,activity, dbManager,checkInternetConnection);
     }
 
     @FeedScope
     @Provides
-    FeedPresenter homePresenter(SchedulerProvider schedulerProvider, FeedInteractor homeInteractor, FeedView homeView){
-        return  new FeedPresenter(activity,schedulerProvider,homeInteractor,homeView);
+    FeedPresenter feedPresenter(SchedulerProvider schedulerProvider, FeedInteractor homeInteractor, FeedView homeView, CheckInternetConnection checkInternetConnection){
+        return  new FeedPresenter(activity,schedulerProvider,homeInteractor,homeView,checkInternetConnection);
     }
 
 }

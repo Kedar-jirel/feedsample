@@ -4,6 +4,7 @@ package com.example.myfeedapplication.application.di.modules;
 import android.content.Context;
 
 import com.example.myfeedapplication.application.di.AppScope;
+import com.example.myfeedapplication.ext.CheckInternetConnection;
 import com.example.myfeedapplication.ext.KeyboardHandler;
 import com.example.myfeedapplication.ext.RequestPermissionHandler;
 import com.example.myfeedapplication.ext.SchedulerProvider;
@@ -25,6 +26,11 @@ public class AppModules {
         return  context;
     }
 
+    @AppScope
+    @Provides
+    CheckInternetConnection checkInternetConnection(){
+        return  new CheckInternetConnection(context);
+    }
 
     @AppScope
     @Provides

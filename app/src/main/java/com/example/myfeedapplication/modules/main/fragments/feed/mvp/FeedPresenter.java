@@ -1,12 +1,14 @@
 package com.example.myfeedapplication.modules.main.fragments.feed.mvp;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfeedapplication.application.models.remote.Feed;
+import com.example.myfeedapplication.ext.CheckInternetConnection;
 import com.example.myfeedapplication.ext.SchedulerProvider;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -17,18 +19,20 @@ public class FeedPresenter {
     final SchedulerProvider schedulerProvider;
     final FeedInteractor feedInteractor;
     final FeedView feedView;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    final  CheckInternetConnection checkInternetConnection;
 
-    public FeedPresenter(AppCompatActivity activity, SchedulerProvider schedulerProvider, FeedInteractor feedInteractor, FeedView feedView) {
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    public FeedPresenter(AppCompatActivity activity, SchedulerProvider schedulerProvider, FeedInteractor feedInteractor, FeedView feedView, CheckInternetConnection checkInternetConnection) {
 
         this.activity = activity;
         this.schedulerProvider = schedulerProvider;
         this.feedInteractor = feedInteractor;
         this.feedView = feedView;
+        this.checkInternetConnection = checkInternetConnection;
     }
 
     public void onCreateView() {
-
         feedView.mShimmerView.setVisibility(View.VISIBLE);
         compositeDisposable.add(
                 feedInteractor.onGetFeeds()
@@ -41,9 +45,31 @@ public class FeedPresenter {
         feedView.mShimmerView.setVisibility(View.GONE);
     }
 
-    private void onFeedFetchSuccess(List<Feed> feeds) {
+    private void onFeedFetchSuccess(ArrayList<Feed> feeds) {
+        if(checkInternetConnection.isNetworkConnected()){
+            saveFeeds(feeds);
+        }
+
         feedView.mShimmerView.setVisibility(View.GONE);
         feedView.onUpdateAdapter(feeds);
+    }
+
+    private void saveFeeds(ArrayList<Feed> feeds) {
+        compositeDisposable.add(feedInteractor.save(feeds)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::saveSuccess,this::onError));
+    }
+
+    private void onError(Throwable throwable) {
+    }
+
+    private void saveSuccess(Boolean aBoolean) {
+        if(aBoolean){
+            Log.e("Feed","saved");
+        }else{
+            Log.e("Feed","Failed");
+        }
     }
 
     public void onDestroy() {
@@ -56,4 +82,7 @@ public class FeedPresenter {
         }
 
     }
+
+
+
 }
